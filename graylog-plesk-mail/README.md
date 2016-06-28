@@ -1,4 +1,4 @@
-Instructions, quick and simple:
+# Instructions, quick and simple:
 
 1. Login to your plesk server
 2. Add the following line at the end of /etc/rsyslog.conf:

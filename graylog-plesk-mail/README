@@ -1,0 +1,12 @@
+Instructiond, quick and simple:
+
+1. Login to your plesk server
+2. Add the following line at the end of /etc/rsyslog.conf:
+   mail.* @10.100.10.105:12320
+3. Restart rsyslogd wih the command: 
+   service rsyslog restart
+4. Import the content pack in this directory into Graylog (tested with 2.0.1).
+
+All messages relevant to SMTP incoming and outgoing mail will be identified with the field EU_mail:true
+
+Enjoy!

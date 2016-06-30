@@ -2,7 +2,7 @@
 
 1. Login to your plesk server
 2. Add the following line at the end of /etc/rsyslog.conf:
-   mail.* @10.100.10.105:12320
+   mail.* @<IP_OF_YOUR_GRAYLOG_SERVER>:12320
 3. Restart rsyslogd wih the command: 
    service rsyslog restart
 4. Import the content pack in this directory into Graylog (tested with 2.0.1).

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "name": "EU Data Retention Plesk Mail",
   "description": "this Content Pack contains a Graylog content pack to keep Mail Data from a Plesk (Version 12.5 tested) in a Graylog instance to comply with Directive 2006/24/EC - Data retention",
@@ -138,6 +137,3 @@
   "dashboards": [ ],
   "grok_patterns": [ ]
 }
-=======
-{"name":"EU Data Retention Plesk Mail","description":"This Content Pack contains a Graylog content pack to keep Mail Data from a Plesk (Version 12.5 tested) in a Graylog instance to comply with Directive 2006/24/EC - Data retention","category":"EU Data Retention","inputs":[{"title":"EU Data Retention Plesk Mail","configuration":{"expand_structured_data":false,"recv_buffer_size":262144,"port":12320,"override_source":null,"force_rdns":false,"allow_override_date":true,"bind_address":"0.0.0.0","store_full_message":false},"static_fields":{"EU_mail":"true"},"type":"org.graylog2.inputs.syslog.udp.SyslogUDPInput","global":true,"extractors":[{"title":"EU Data Retention postfix key/value pairs","type":"COPY_INPUT","cursor_strategy":"CUT","target_field":"detail","source_field":"detail","configuration":{},"converters":[{"type":"TOKENIZER","configuration":{}}],"condition_type":"NONE","condition_value":"","order":1},{"title":"EU Data Retention postfix pre-process","type":"GROK","cursor_strategy":"COPY","target_field":"","source_field":"message","configuration":{"grok_pattern":"%{HOSTNAME} %{WORD:daemon}\\/%{WORD:service}\\[%{BASE10NUM:pid}\\]: (%{WORD:messageid}: )?%{GREEDYDATA:detail}"},"converters":[],"condition_type":"STRING","condition_value":"postfix","order":0}]}],"streams":[],"outputs":[],"dashboards":[],"grok_patterns":[]}
->>>>>>> e4fe852741b8ca39f7fdd7634a2298ec417118fe

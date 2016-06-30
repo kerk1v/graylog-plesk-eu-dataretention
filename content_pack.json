@@ -1,0 +1,143 @@
+<<<<<<< HEAD
+{
+  "name": "EU Data Retention Plesk Mail",
+  "description": "this Content Pack contains a Graylog content pack to keep Mail Data from a Plesk (Version 12.5 tested) in a Graylog instance to comply with Directive 2006/24/EC - Data retention",
+  "category": "EU Data Retention",
+  "inputs": [
+    {
+      "title": "EU Data Retention Plesk Mail",
+      "configuration": {
+        "expand_structured_data": false,
+        "recv_buffer_size": 262144,
+        "port": 12320,
+        "override_source": null,
+        "force_rdns": false,
+        "allow_override_date": true,
+        "bind_address": "0.0.0.0",
+        "store_full_message": false
+      },
+      "static_fields": { "EU_mail": "true" },
+      "type": "org.graylog2.inputs.syslog.udp.SyslogUDPInput",
+      "global": true,
+      "extractors": [
+        {
+          "title": "EU Data Retention postfix pre-process",
+          "type": "GROK",
+          "cursor_strategy": "COPY",
+          "target_field": "",
+          "source_field": "message",
+          "configuration": { "grok_pattern": "%{HOSTNAME} %{WORD:daemon}\\/%{WORD:service}\\[%{BASE10NUM:pid}\\]: (%{WORD:messageid}: )?%{GREEDYDATA:detail}" },
+          "converters": [ ],
+          "condition_type": "STRING",
+          "condition_value": "postfix",
+          "order": 0
+        },
+        {
+          "title": "EU Data Retention postfix key/value pairs",
+          "type": "COPY_INPUT",
+          "cursor_strategy": "CUT",
+          "target_field": "detail",
+          "source_field": "detail",
+          "configuration": { },
+          "converters": [
+            {
+              "type": "TOKENIZER",
+              "configuration": { }
+            }
+          ],
+          "condition_type": "NONE",
+          "condition_value": "",
+          "order": 1
+        },
+        {
+          "title": "EU Data Retention IMAP Logins",
+          "type": "GROK",
+          "cursor_strategy": "COPY",
+          "target_field": "",
+          "source_field": "message",
+          "configuration": { "grok_pattern": "%{HOSTNAME} %{WORD:daemon}: %{DATA:imap_op}: %{DATA:imap_op_result}: %{GREEDYDATA:imap_op_keyval}" },
+          "converters": [ ],
+          "condition_type": "STRING",
+          "condition_value": "imap-login",
+          "order": 2
+        },
+        {
+          "title": "EU Data Retention IMAP Logins key value extractor",
+          "type": "COPY_INPUT",
+          "cursor_strategy": "CUT",
+          "target_field": "imap_op_keyval",
+          "source_field": "imap_op_keyval",
+          "configuration": { },
+          "converters": [
+            {
+              "type": "TOKENIZER",
+              "configuration": { }
+            }
+          ],
+          "condition_type": "NONE",
+          "condition_value": "",
+          "order": 3
+        },
+        {
+          "title": "EU Data Retention IMAP Logins user name cleanup",
+          "type": "GROK",
+          "cursor_strategy": "CUT",
+          "target_field": "",
+          "source_field": "user",
+          "configuration": { "grok_pattern": "%{EMAILADDRESS:user}" },
+          "converters": [ ],
+          "condition_type": "NONE",
+          "condition_value": "",
+          "order": 4
+        },
+        {
+          "title": "EU Data Retention IMAP Logout",
+          "type": "GROK",
+          "cursor_strategy": "COPY",
+          "target_field": "",
+          "source_field": "message",
+          "configuration": { "grok_pattern": "%{HOSTNAME} %{WORD:daemon}: %{DATA:imap_op}, %{GREEDYDATA:imap_op_keyval}" },
+          "converters": [ ],
+          "condition_type": "STRING",
+          "condition_value": "service=imap",
+          "order": 5
+        },
+        {
+          "title": "EU Data Retention IMAP Logout Operation Corrector",
+          "type": "REGEX_REPLACE",
+          "cursor_strategy": "CUT",
+          "target_field": "imap_op",
+          "source_field": "imap_op",
+          "configuration": {
+            "regex": "service=imap",
+            "replacement": "imap-logout",
+            "replace_all": true
+          },
+          "converters": [ ],
+          "condition_type": "NONE",
+          "condition_value": "",
+          "order": 6
+        },
+        {
+          "title": "EU Data Retention IMAP Logout key-value details",
+          "type": "GROK",
+          "cursor_strategy": "COPY",
+          "target_field": "",
+          "source_field": "imap_op_keyval",
+          "configuration": { "grok_pattern": "user=%{EMAILADDRESS:user}, ip=\\[%{IP:ip}\\]\\. (%{GREEDYDATA})? rcvd=%{BASE10NUM:bytes_rcvd}, sent=%{BASE10NUM:bytes_sent}" },
+          "converters": [ ],
+          "condition_type": "STRING",
+          "condition_value": "Disconnected: Logged out",
+          "order": 7
+        }
+      ]
+    }
+  ],
+  "streams": [ ],
+  "outputs": [ ],
+  "dashboards": [ ],
+  "grok_patterns": [ ]
+}
+=======
+{"name":"EU Data Retention Plesk Mail","description":"This Content Pack contains a Graylog content pack to keep Mail Data from a Plesk (Version 12.5 tested) in a Graylog instance to comply with Directive 2006/24/EC - Data retention","category":"EU Data Retention","inputs":[{"title":"EU Data Retention Plesk Mail","configuration":{"expand_structured_data":false,"recv_buffer_size":262144,"port":12320,"override_source":null,"force_rdns":false,"allow_override_date":true,"bind_address":"0.0.0.0","store_full_message":false},"static_fields":{"EU_mail":"true"},"type":"org.graylog2.inputs.syslog.udp.SyslogUDPInput","global":true,"extractors":[{"title":"EU Data Retention postfix key/value pairs","type":"COPY_INPUT","cursor_strategy":"CUT","target_field":"detail","source_field":"detail","configuration":{},"converters":[{"type":"TOKENIZER","configuration":{}}],"condition_type":"NONE","condition_value":"","order":1},{"title":"EU Data Retention postfix pre-process","type":"GROK","cursor_strategy":"COPY","target_field":"","source_field":"message","configuration":{"grok_pattern":"%{HOSTNAME} %{WORD:daemon}\\/%{WORD:service}\\[%{BASE10NUM:pid}\\]: (%{WORD:messageid}: )?%{GREEDYDATA:detail}"},"converters":[],"condition_type":"STRING","condition_value":"postfix","order":0}]}],"streams":[],"outputs":[],"dashboards":[],"grok_patterns":[]}
+>>>>>>> e4fe852741b8ca39f7fdd7634a2298ec417118fe

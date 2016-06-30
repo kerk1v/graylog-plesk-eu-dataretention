@@ -9,4 +9,8 @@
 
 All messages relevant to SMTP incoming and outgoing mail will be identified with the field EU_mail:true
 
+New Release 30/06/15: added extractors to also cover IMAP logins
+
+Work in progress: add Roundcube Webmail logins, sucessful and failed
+
 Enjoy!
